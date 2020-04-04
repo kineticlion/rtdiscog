@@ -1,55 +1,65 @@
 import React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 const Tracks = styled.div`
     display:flex;
     justify-content: space-between;
     flex-direction: column;
-    height : 50vh;
-    width : 100%;
-    overflow-y : scroll;
-`
+`;
 
 const TrackCover = styled.div`
     display:flex;
     align-items: center;
-`
+`;
 
 const TrackDetails = styled.div`
     display: flex;
-    flex-wrap: wrap;
     flex-direction:column;
     align-items:center;
-`
+    justify-content: space-between;
+    margin: 0 auto;
+`;
 
 const Image = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 110px;
     margin : 0 auto;
-`
+`;
 
 const Button = styled.button`
-    width:20%;
-    margin-bottom:20px;
+    width:200px;
+    margin:2px 0 10px 0 ;
+    min-height: 2vh;
+    border-radius: 10px;
+`;
+
+const TrackTitle = styled.div`
+    text-align: center;
 `
 
-const DisplayBox = (props) => {
+const DisplayTracks = (props) => {
     return (
         <Tracks>
-            {props.data.map(dataObject =>{
-                return <div key={dataObject.id}>
+            {props.data.map(dataObject => {
+                return (<div key={dataObject.id}>
                     <TrackCover>
                         <Image src={dataObject.cover_image}/>
                     </TrackCover>
                     <TrackDetails>
                         <label>ID : {dataObject.id}</label>
-                        <label>{dataObject.title}</label>
+                        <TrackTitle>Title : {dataObject.title}</TrackTitle>
+                        <label>Genre : {dataObject.genre}</label>
                         <Button>Add to Playlist</Button>
                     </TrackDetails>
-                </div>
+                </div>);
             })}
         </Tracks>
     );
 };
 
-export default DisplayBox;
+DisplayTracks.propTypes = {
+    data: PropTypes.array
+};
+
+export default DisplayTracks;

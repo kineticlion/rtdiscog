@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import AddTrack from './DiscogsComponent/AddTrack';
+import AddTrack from './AddTrack';
 
 const TrackContainer = styled.div`
     border : 2px solid #f1f1f1;
@@ -41,7 +41,7 @@ const DisplayTracks = (props) => {
                     <label>ID : {id}</label>
                     <label>Title : {title}</label>
                     <label>Genre : {genre}</label>
-                    <AddTrack trackData = {trackData} >Add to Playlist</AddTrack>
+                    <AddTrack trackData = {trackData} setUpdate={props.setUpdate}>Add to Playlist</AddTrack>
                 </TrackContainer>);
             })}
         </Tracks>
@@ -51,7 +51,8 @@ const DisplayTracks = (props) => {
 DisplayTracks.propTypes = {
     data: PropTypes.array,
     visibility: PropTypes.string,
-    selection: PropTypes.number
+    selection: PropTypes.number,
+    setUpdate: PropTypes.func
 };
 
 export default DisplayTracks;

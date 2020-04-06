@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { Component} from 'react';
 import DisplayTracks from './DisplayTracks';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 const DiscogsContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    border : 8px solid #f1f1f1;
+    padding:10px;
+    border-radius:15px;
+    background-color : #fefefe;
+    width: 48.5vw;
 `;
 
 const SearchTracks = styled.div`
@@ -22,37 +28,56 @@ const SearchButton = styled.button`
 
 const SearchBox = styled.input`
     padding : 5px;
+    margin-left:20px;
     border-radius: 5px;
 `;
 
-const DiscogsComponent = (props) => {
-    const [search, setSearch] = useState('Enter a title to search');
-    const [titles, setTitles] = useState([]);
+class DiscogsComponent extends Component {
+    constructor (props) {
+        super(props);
+        this.state = {
+            search: 'Enter a title to search',
+            tracksData: [],
+            visibility: 'hidden'
+        };
+    }
 
-    const callApi = async () => {
-        const apiUrl = `https://api.discogs.com/database/search?q=${search}&type=release&token=UMDrJDeNyBsBpWUCsWwmrbDkVYpLwEzYzjZnHyjF`;
+    async callApi () {
+        const apiUrl = `https://api.discogs.com/database/search?q=${this.state.search}&type=release&token=UMDrJDeNyBsBpWUCsWwmrbDkVYpLwEzYzjZnHyjF`;
         const apiResponse = await fetch(apiUrl);
         const jsonResponse = await apiResponse.json();
         const { results } = jsonResponse;
         return results;
     };
 
-    const handleSearch = (e) => {
+    handleSearch (e) {
         e.preventDefault();
-        callApi().then(response => {
-            setTitles(response);
+        this.setState({ visibility: 'visible' });
+        this.callApi().then(response => {
+            this.setState({ tracksData: response });
         });
     };
 
-    return (
-        <DiscogsContainer>
-            <SearchTracks>
-                <SearchBox placeholder={ search } onChange={ e => setSearch(e.target.value) }/>
-                <SearchButton onClick={ e => handleSearch(e) }>Search</SearchButton>
-            </SearchTracks>
-            <DisplayTracks data={titles}/>
-        </DiscogsContainer>
-    );
+    shouldComponentUpdate (nextProps, nextState, nextContext) {
+        return true;
+    }
+
+    render () {
+        return (
+            <DiscogsContainer>
+                <SearchTracks>
+                    <SearchBox placeholder={this.state.search} onChange={e => this.setState({ search: e.target.value })}/>
+                    <SearchButton onClick={e => this.handleSearch(e)}>Search</SearchButton>
+                </SearchTracks>
+                <DisplayTracks selection={this.props.selection} visibility={this.state.visibility} data={this.state.tracksData} setUpdate={this.props.setUpdate}/>
+            </DiscogsContainer>
+        );
+    }
+}
+
+DiscogsComponent.propTypes = {
+    selection: PropTypes.number,
+    setUpdate: PropTypes.func
 };
 
 export default DiscogsComponent;

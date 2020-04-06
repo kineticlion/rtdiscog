@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 const AddButton = styled.button`
     margin: 5px;
@@ -10,7 +10,6 @@ const AddButton = styled.button`
 `;
 
 const AddTrack = props => {
-    const [update, setUpdate] = useState(false);
     const sendReq = async () => {
         console.log(JSON.stringify(props.trackData));
         const options = {
@@ -21,14 +20,16 @@ const AddTrack = props => {
         const response = await fetch('http://localhost:3500/api/playlist', options);
         const jsonResponse = await response.json();
         return jsonResponse;
-    }
+    };
 
     const addTrack = (e) => {
         e.preventDefault();
         sendReq().then(response => {
             console.log(response);
+            props.setUpdate(true);
         });
-    }
+    };
+
     return (
         <AddButton onClick = {e => addTrack(e) }>
             Add to Playlist
@@ -37,7 +38,8 @@ const AddTrack = props => {
 };
 
 AddTrack.propTypes = {
-    trackData: PropTypes.object
+    trackData: PropTypes.object,
+    setUpdate: PropTypes.func
 };
 
 export default AddTrack;

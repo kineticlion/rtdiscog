@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DisplayPlaylists from './DisplayPlaylists';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import DisplayPlaylistTracks from "./DisplayPlaylistTracks";
+import DisplayPlaylistTracks from './DisplayPlaylistTracks';
 
 const PlaylistsContainer = styled.div`
     display: flex;
@@ -21,7 +21,7 @@ const Title = styled.h3`
 
 const PlaylistComponent = (props) => {
     const [genres, setGenres] = useState([]);
-    const [playlist,setPlaylist] = useState([]);
+    const [playlist, setPlaylist] = useState([]);
 
     useEffect(() => {
         fetch('http://localhost:3500/api/playlist/')
@@ -33,8 +33,7 @@ const PlaylistComponent = (props) => {
             .then(response => response.json())
             .then(data => setPlaylist(data))
             .catch(err => console.log(err));
-    }, []);
-
+    }, [props.selection, props.update]);
 
     return (
         <PlaylistsContainer>
@@ -47,7 +46,8 @@ const PlaylistComponent = (props) => {
 
 PlaylistComponent.propTypes = {
     setSelection: PropTypes.func,
-    selection: PropTypes.number
+    selection: PropTypes.number,
+    update: PropTypes.bool
 };
 
 export default PlaylistComponent;

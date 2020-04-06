@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {"id":3611081,"playlist_id":1,"title":"Frederick Hollander* - The 5,000 Fingers Of Dr. T. (Original Motion Picture Soundtrack)","uri":"/Frederick-Hollander-The-5000-Fingers-Of-Dr-T-Original-Motion-Picture-Soundtrack/release/3611081","master_id":440735}
 ###
-GET http://localhost:3500/api/tracks
+GET http://localhost:3500/api/playlist/2
 Accept: application/json
 
 ###

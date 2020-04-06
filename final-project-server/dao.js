@@ -16,7 +16,7 @@ const getPlaylists = async (request, response) => {
         response.status(200).json(results.rows);
         client.release();
     } catch (e) {
-        response.status(400).send(e);g
+        response.status(400).send(e);
     }
 };
 

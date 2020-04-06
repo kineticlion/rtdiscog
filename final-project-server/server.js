@@ -1,13 +1,13 @@
 const express = require('express');
 const pgDao = require('./dao');
-const cors = require('cors')
+const cors = require('cors');
 const app = express();
 
 const PORT = 3500;
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+app.use(express.json());
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
